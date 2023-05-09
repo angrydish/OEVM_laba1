@@ -42,18 +42,20 @@ echo Сетевые интерфейсы:
 echo -e "\t Количество сетевых интерфейсов:" `ls /sys/class/net | wc -l`
 count=1
 tabs 20
-echo -e "\t №\tИмя\t\t MAC\t\t\t IP"
+echo -e "\t №\tИмя\t\t MAC\t\t\t IP\t\tSPEED"
 for t in `ls /sys/class/net`; do
 	mac=`ip a show $t 2>/dev/null | grep ether | awk '{print $2}'`
 	ip=`ip a show $t 2>/dev/null | grep -w inet | awk '{print $2}'`
+	intspeed=`cat /sys/class/net/$t/speed 2>/dev/null`
+	[[ $"$intspeed" != "" ]] && intspeed="$intspeed Mb/s" || intspeed="unavailable"
 	if [[ $"$mac" == "" ]] && [[ $"$ip" == "" ]]; then
-		echo -e "\t $count\t$t\t\t" "no mac provided\t\t\t no ip provided"
+		echo -e "\t $count\t$t\t\t" "no mac provided\t\t\t no ip provided\t\t$intspeed"
 	elif [[ $"$mac" == "" ]]; then
-		echo -e "\t $count\t$t\t\t" "no mac provided\t\t\t" $ip
+		echo -e "\t $count\t$t\t\t" "no mac provided\t\t\t" $ip "\t\t$intspeed"
 	elif [[ $"$ip" == "" ]]; then
-		echo -e "\t $count\t$t\t\t" $mac "\t\t\t" "no ip provided"
+		echo -e "\t $count\t$t\t\t" $mac "\t\t\t" "no ip provided\t\t$intspeed"
 	else
-		echo -e "\t $count\t$t\t\t" $mac "\t\t\t" $ip
+		echo -e "\t $count\t$t\t\t" $mac "\t\t\t" $ip "\t\t$intspeed"
 	fi
 	let "count+=1"
 done
