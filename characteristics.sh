@@ -25,7 +25,7 @@ echo Доменное имя ПК: `hostname`
 echo Процессор:
 echo -e "\t" `lscpu | grep -i модели`
 echo -e "\t" `lscpu | grep Архитектура:`
-echo -e "\t" `lscpu | grep "CPU max MHz"`
+echo -e "\t" `lscpu | grep "CPU max MHz" | awk '{print $1 " " $2 " " $3}'` `lscpu | grep "CPU max MHz" | awk -v FS=, '{print $2}'` 
 echo -e "\t" `lscpu | grep "Ядер на сокет"`
 echo -e "\t" `lscpu | grep "Потоков на ядро"`
 echo Оперативная память:
