@@ -25,9 +25,9 @@ echo Доменное имя ПК: `hostname`
 echo Процессор:
 echo -e "\t" `lscpu | grep -E 'Model name|модели'`
 echo -e "\t" `lscpu | grep -E 'Архитектура|Architecture'`
-echo -e "\t" `lscpu | grep "CPU max MHz" | awk '{print $1 " " $2 " " $3}'` `lscpu | grep "CPU max MHz" | awk -v FS=, '{print $2}'` 
-echo -e "\t" `lscpu | grep "Ядер на сокет"`
-echo -e "\t" `lscpu | grep "Потоков на ядро"`
+echo -e "\t" `lscpu | grep -E "CPU max MHz|CPU MHz" | awk '{print $1 " " $2 " " $3}'` `lscpu | grep "CPU max MHz" | awk -v FS=, '{print $2}'` 
+echo -e "\t Ядер на сокет:" `lscpu | grep -E "Ядер на сокет|per socket" | awk '{print $4}'`
+echo -e "\t Потоков на ядро:" `lscpu | grep -E "Потоков на ядро|per core" | awk '{print $4}'`
 echo Оперативная память:
 echo -e "\t Всего:" `free -h | grep -E 'Память|Mem' | awk '{print $2}'`
 echo -e "\t Доступно:" `free -h | grep -E 'Память|Mem' | awk '{print $7}'`
@@ -40,18 +40,19 @@ echo -e "\t SWAP доступно:" `free -h | grep -E 'Подкачка|Swap' |
 echo Сетевые интерфейсы:
 echo -e "\t Количество сетевых интерфейсов:" `ls /sys/class/net | wc -l`
 count=1
+tabs 20
 echo -e "\t №\tИмя\t\t MAC\t\t\t IP"
 for t in `ls /sys/class/net`; do
 	mac=`ip a show $t | grep ether | awk '{print $2}'`
 	ip=`ip a show $t | grep -w inet | awk '{print $2}'`
 	if [[ $"$mac" == "" ]]; then
-		echo -e "\t $count\t$t\t\t" "no mac provided\t" $ip
+		echo -e "\t $count\t$t\t\t" "no mac provided\t\t\t" $ip
 	else
-		echo -e "\t $count\t$t\t\t" $mac "\t" $ip
+		echo -e "\t $count\t$t\t\t" $mac "\t\t\t" $ip
 	fi
 	let "count+=1"
 done
-
+tabs 4
 if [[ $"$1" == "-s" ]]; then
 	if [[ $ustanovlen == "true" ]] && [[ $soglasen == "y" ]];then
 		echo Скорость:
