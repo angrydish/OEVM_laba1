@@ -23,20 +23,20 @@ echo Дата: `date`
 echo Имя учетной записи: `whoami`
 echo Доменное имя ПК: `hostname`
 echo Процессор:
-echo -e "\t" `lscpu | grep -i модели`
-echo -e "\t" `lscpu | grep Архитектура:`
+echo -e "\t" `lscpu | grep -E 'Model name|модели'`
+echo -e "\t" `lscpu | grep -E 'Архитектура|Architecture'`
 echo -e "\t" `lscpu | grep "CPU max MHz" | awk '{print $1 " " $2 " " $3}'` `lscpu | grep "CPU max MHz" | awk -v FS=, '{print $2}'` 
 echo -e "\t" `lscpu | grep "Ядер на сокет"`
 echo -e "\t" `lscpu | grep "Потоков на ядро"`
 echo Оперативная память:
-echo -e "\t Всего:" `free -h | grep Память | awk '{print $2}'`
-echo -e "\t Доступно:" `free -h | grep Память | awk '{print $7}'`
+echo -e "\t Всего:" `free -h | grep -E 'Память|Mem' | awk '{print $2}'`
+echo -e "\t Доступно:" `free -h | grep -E 'Память|Mem' | awk '{print $7}'`
 echo Жесткий диск:
 echo -e "\t Всего:" `df -h | grep /dev/sdc4 | awk '{print $2}'`
 echo -e "\t Доступно:" `df -h | grep /dev/sdc4 | awk '{print $4}'`
 echo -e "\t Смонтировано в корневую директорию:" `df -h | grep /dev/sdc4 | awk '{print $6}'`;
-echo -e "\t SWAP всего:" `free -h | grep Подкачка | awk '{print $2}'`
-echo -e "\t SWAP доступно:" `free -h | grep Подкачка | awk '{print $4}'`
+echo -e "\t SWAP всего:" `free -h | grep -E 'Подкачка|Swap' | awk '{print $2}'`
+echo -e "\t SWAP доступно:" `free -h | grep -E 'Подкачка|Swap' | awk '{print $4}'`
 echo Сетевые интерфейсы:
 echo -e "\t Количество сетевых интерфейсов:" `ls /sys/class/net | wc -l`
 count=1
