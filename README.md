@@ -11,13 +11,13 @@
 ---
 ### Пример запуска с ключом ```-s``` для проверки скорости соединения
 <p align="center">
-  <img src="https://github.com/angrydish/OEVM_laba1/assets/57886942/d4359b99-2051-43e7-a52e-1a8c3c620a2d"/>
+  <img src="https://github.com/angrydish/OEVM_laba1/assets/57886942/55e7b5f5-66a0-45a0-ade0-542564ad1d21"/>
 </p>
 
 ---
 ### Пример запуска без ключей
 <p align="center">
-  <img src="https://github.com/angrydish/OEVM_laba1/assets/57886942/9597cff8-0145-4624-b68e-4381023d6aed"/>
+  <img src="https://github.com/angrydish/OEVM_laba1/assets/57886942/2b2cd661-3e3f-4b77-b1db-737f1a8412b0"/>
 </p>
 
 ---
