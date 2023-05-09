@@ -32,9 +32,10 @@ echo Оперативная память:
 echo -e "\t Всего:" `free -h | grep -E 'Память|Mem' | awk '{print $2}'`
 echo -e "\t Доступно:" `free -h | grep -E 'Память|Mem' | awk '{print $7}'`
 echo Жесткий диск:
-echo -e "\t Всего:" `df -h | grep /dev/sdc4 | awk '{print $2}'`
-echo -e "\t Доступно:" `df -h | grep /dev/sdc4 | awk '{print $4}'`
-echo -e "\t Смонтировано в корневую директорию:" `df -h | grep /dev/sdc4 | awk '{print $6}'`;
+disk=`findmnt | head -2 | tail -1 | awk '{print $2}'`
+echo -e "\t Всего:" `df -h | grep $disk |awk '{print $2}'`
+echo -e "\t Доступно:" `df -h | grep $disk | awk '{print $4}'`
+echo -e "\t Смонтировано в корневую директорию:" `df -h | grep $disk | awk '{print $6}'`
 echo -e "\t SWAP всего:" `free -h | grep -E 'Подкачка|Swap' | awk '{print $2}'`
 echo -e "\t SWAP доступно:" `free -h | grep -E 'Подкачка|Swap' | awk '{print $4}'`
 echo Сетевые интерфейсы:
@@ -60,7 +61,7 @@ tabs 4
 if [[ $"$1" == "-s" ]]; then
 	if [[ $ustanovlen == "true" ]] && [[ $soglasen == "y" ]];then
 		echo Скорость:
-		speedtest --accept-license -p no | grep -E "(Download|Upload)" | awk '{print $3 $4}'>./res.txt &
+		speedtest --accept-license -p no 2>/dev/null | grep -E "(Download|Upload)" | awk '{print $3 $4}'>./res.txt &
 		#speedtest -p no | grep -E "(Download|Upload)">./res.txt &
 		spin[0]="-"
 		spin[1]="\\"
@@ -81,6 +82,7 @@ if [[ $"$1" == "-s" ]]; then
 		#cat res.txt | awk '{print $3 $4}'
 		echo "Загрузка: " `cat res.txt | head -1`
 		echo "Отдача: " `cat res.txt | tail -1`
+		rm -rf res.txt
 	fi
 else
 	exit
