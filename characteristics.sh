@@ -43,10 +43,14 @@ count=1
 tabs 20
 echo -e "\t №\tИмя\t\t MAC\t\t\t IP"
 for t in `ls /sys/class/net`; do
-	mac=`ip a show $t | grep ether | awk '{print $2}'`
-	ip=`ip a show $t | grep -w inet | awk '{print $2}'`
-	if [[ $"$mac" == "" ]]; then
+	mac=`ip a show $t 2>/dev/null | grep ether | awk '{print $2}'`
+	ip=`ip a show $t 2>/dev/null | grep -w inet | awk '{print $2}'`
+	if [[ $"$mac" == "" ]] && [[ $"$ip" == "" ]]; then
+		echo -e "\t $count\t$t\t\t" "no mac provided\t\t\t no ip provided"
+	elif [[ $"$mac" == "" ]]; then
 		echo -e "\t $count\t$t\t\t" "no mac provided\t\t\t" $ip
+	elif [[ $"$ip" == "" ]]; then
+		echo -e "\t $count\t$t\t\t" $mac "\t\t\t" "no ip provided"
 	else
 		echo -e "\t $count\t$t\t\t" $mac "\t\t\t" $ip
 	fi
